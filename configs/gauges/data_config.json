@@ -1,0 +1,16 @@
+{
+    "Gauge1": {
+      "min_value": 0,
+      "max_value": 100,
+      "units": "km/h",
+      "name": "Speed",
+      "icon": "assets/afr.png"
+    },
+    "Gauge2": {
+      "min_value": 0,
+      "max_value": 200,
+      "units": "rpm",
+      "name": "RPM",
+      "icon": "assets/rpm.png"
+    }
+  }

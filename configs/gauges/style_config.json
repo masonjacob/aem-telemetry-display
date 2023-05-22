@@ -1,0 +1,36 @@
+{
+    "Gauge1": {
+      "start_angle": -135,
+      "end_angle": 135,
+      "num_ticks": 10,
+      "num_values": 5,
+      "gauge_style": {
+        "arc_width": 10,
+        "arc_color": "#ddd",
+        "needle_color": "#f00",
+        "value_box_color": "#ddd",
+        "value_box_text_color": "#f00",
+        "value_box_font": {
+          "family": "Arial",
+          "size": 16
+        }
+      }
+    },
+    "Gauge2": {
+      "start_angle": -180,
+      "end_angle": 180,
+      "num_ticks": 15,
+      "num_values": 7,
+      "gauge_style": {
+        "arc_width": 8,
+        "arc_color": "#aaa",
+        "needle_color": "#00f",
+        "value_box_color": "#ddd",
+        "value_box_text_color": "#00f",
+        "value_box_font": {
+          "family": "Arial",
+          "size": 14
+        }
+      }
+    }
+  }
