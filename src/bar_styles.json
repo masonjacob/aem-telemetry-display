@@ -1,0 +1,13 @@
+{
+    "default": {
+      "bar_fill": "#ddd",
+      "fill_color": "#f00",
+      "value_color": "#f00"
+    },
+    "style1": {
+      "bar_fill": "#888",
+      "fill_color": "#00f",
+      "value_color": "#00f"
+    }
+  }
+  

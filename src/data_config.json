@@ -1,0 +1,27 @@
+[
+    {
+      "name": "RPM",
+      "units": "rpm",
+      "min_value": 0,
+      "max_value": 8000
+    },
+    {
+      "name": "Speed",
+      "units": "km/h",
+      "min_value": 0,
+      "max_value": 200
+    },
+    {
+      "name": "Fuel",
+      "units": "liters",
+      "min_value": 0,
+      "max_value": 50
+    },
+    {
+      "name": "Temperature",
+      "units": "°C",
+      "min_value": 0,
+      "max_value": 100
+    }
+  ]
+  

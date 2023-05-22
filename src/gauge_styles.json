@@ -1,0 +1,15 @@
+{
+    "default": {
+      "arc_color": "#ddd",
+      "needle_color": "#f00",
+      "value_box_fill": "#ddd",
+      "value_color": "#f00"
+    },
+    "style1": {
+      "arc_color": "#888",
+      "needle_color": "#00f",
+      "value_box_fill": "#888",
+      "value_color": "#00f"
+    }
+  }
+  
