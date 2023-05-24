@@ -1,0 +1,37 @@
+{
+  "Speed": {
+    "name": "Vehicle Speed",
+    "units": "km/h",
+    "icon": "speed_icon.png",
+    "min_value": 0,
+    "max_value": 200
+  },
+  "RPM": {
+    "name": "Engine RPM",
+    "units": "RPM",
+    "icon": "rpm_icon.png",
+    "min_value": 0,
+    "max_value": 8000
+  },
+  "Temperature": {
+    "name": "Water Temperature",
+    "units": "°F",
+    "icon": "temperature_icon.png",
+    "min_value": 100,
+    "max_value": 240
+  },
+  "AFR": {
+    "name": "Air Fuel Ratio",
+    "units": "AFR",
+    "icon": "afr_icon.png",
+    "min_value": 10,
+    "max_value": 20
+  },
+  "Battey Voltage": {
+    "name": "Battery Voltage",
+    "units": "V",
+    "icon": "battery_icon.png",
+    "min_value": 10,
+    "max_value": 16
+  }
+}
