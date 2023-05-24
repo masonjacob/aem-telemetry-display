@@ -1,13 +1,24 @@
 import tkinter as tk
 
 class BarWidget(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, data_config, style_config):
         super().__init__(parent)
         self.parent = parent
-        self.canvas = tk.Canvas(self, width=400, height=400, bg="#222")
-        self.canvas.pack()
+        self.data_config = data_config
+        self.style_config = style_config
+        # Set initial value to the minimum
+        self.value = data_config.get('min_value', 0)
+        self.canvas = tk.Canvas(self, style_config["size"]["canvas-size"], style_config["size"]["canvas-size"], bg=style_config["color_scheme"]["background"])
+    
+    def draw_bar(self): 
+        min_value = self.data_config["min_value"]
+        max_value = self.data_config["max_value"]
+        value = self.value
+        bar_width = self.data_config["bar_width"]
+        bar_height = self.data_config["bar_height"]
+        color_config = self.style_config["color_scheme"]
 
-    def draw_bar(self, value, min_value, max_value, bar_width, bar_height, color_config):
+
         cx = self.canvas.winfo_width() // 2
         cy = self.canvas.winfo_height() // 2
 
@@ -28,3 +39,4 @@ class BarWidget(tk.Frame):
         # Overlay numerical value
         self.canvas.create_text(cx, cy, text=str(int(value)), fill=color_config.get("value_text", "white"),
                                 font=("Arial", 16))
+

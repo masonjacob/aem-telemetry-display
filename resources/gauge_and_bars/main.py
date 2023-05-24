@@ -2,6 +2,7 @@ import json
 from tkinter import *
 from tkinter.ttk import *
 import random
+import os
 
 # Class imports
 from widgets.gauge_widget import GaugeWidget
@@ -12,17 +13,20 @@ class Application(Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
+        self.config_path = "configs"
         self.gauge_widget = GaugeWidget(self.parent)
         self.bar_widget = BarWidget(self.parent)
         self.data_config = {}
         self.styles_config = {}
 
     def load_data_config(self, filename):
-        with open(filename, 'r') as file:
+        file_path = os.path.join(self.config_path, filename)
+        with open(file_path, 'r') as file:
             self.data_config = json.load(file)
 
     def load_styles_config(self, filename):
-        with open(filename, 'r') as file:
+        file_path = os.path.join(self.config_path, filename)
+        with open(file_path, 'r') as file:
             self.styles_config = json.load(file)
 
     def create_menu(self):
@@ -32,14 +36,12 @@ class Application(Frame):
         # Define the gauges menu
         gauges_menu = Menu(menubar, tearoff=0)
         menubar.add_cascade(label='Gauges', menu=gauges_menu)
-        self.parent.bind('<Button-1>', lambda event: self.select_gauge(list(self.data_config.keys())[0]))
-        self.parent.bind('<Button-3>', lambda event: gauges_menu.post(event.x_root, event.y_root))
+        # self.parent.bind('<Button-1>', lambda event: self.select_gauge(list(self.data_config.keys())[0]))
+        # self.parent.bind('<Button-3>', lambda event: gauges_menu.post(event.x_root, event.y_root))
 
         # Define the bars menu
         bars_menu = Menu(menubar, tearoff=0)
         menubar.add_cascade(label='Bars', menu=bars_menu)
-        self.parent.bind('<Button-1>', lambda event: self.select_bar(list(self.data_config.keys())[0]), add='+')
-        self.parent.bind('<Button-3>', lambda event: bars_menu.post(event.x_root, event.y_root), add='+')
 
         # Populate the gauges menu
         for data_type in self.data_config:
@@ -50,7 +52,9 @@ class Application(Frame):
             bars_menu.add_command(label=data_type, command=lambda x=data_type: self.select_bar(x))
 
     def select_gauge(self, selection):
-        self.gauge_widget.canvas.delete("all")  # Clear the canvas
+        self.bar_widget.pack_forget()  # Hide the bar widget
+        self.gauge_widget.pack(fill=BOTH, expand=True)  # Show the gauge widget
+        self.gauge_widget.canvas.delete("all")  # Clear the gauge widget canvas
 
         if selection in self.data_config:
             gauge_data = self.data_config[selection]
@@ -69,12 +73,18 @@ class Application(Frame):
             size_config = gauge_styles["size"]
             color_config = gauge_styles["color_scheme"]
 
+            # Update the widget to ensure it is fully displayed before drawing the gauge
+            self.gauge_widget.update_idletasks()
+
+            # Draw the gauge
             self.gauge_widget.draw_gauge(value, min_value, max_value, start_angle, end_angle, size_config, color_config)
             self.gauge_widget.pack()
 
     def select_bar(self, selection):
-        self.bar_widget.canvas.delete("all")  # Clear the canvas
-
+        self.gauge_widget.pack_forget()  # Hide the gauge widget
+        self.bar_widget.pack(fill=BOTH, expand=True)  # Show the bar widget
+        self.bar_widget.canvas.delete("all")  # Clear the bar widget canvas
+        
         if selection in self.data_config:
             bar_data = self.data_config[selection]
 
@@ -91,12 +101,19 @@ class Application(Frame):
 
             color_config = bar_styles["color_scheme"]
 
+            # Update the widget to ensure it is fully displayed before drawing the gauge
+            self.bar_widget.update_idletasks()
+
             self.bar_widget.draw_bar(value, min_value, max_value, bar_width, bar_height, color_config)
             self.bar_widget.pack()
 
     def run(self):
+         # Load configurations
+        self.load_data_config("data_config.json")
+        self.load_styles_config("styles_config.json")
         self.create_menu()
-        self.select_gauge(list(self.data_config.keys())[0])
+        # first_gauge = list(self.data_config.keys())[0]
+        # self.select_gauge(first_gauge)
         self.parent.mainloop()
 
 
@@ -106,8 +123,6 @@ if __name__ == '__main__':
     root.title("Telemetry Display")
 
     app = Application(root)
-    app.load_data_config("data_config.json")
-    app.load_styles_config("styles_config.json")
     app.run()
 
 

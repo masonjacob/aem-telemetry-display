@@ -14,7 +14,7 @@ class GaugeWidget(tk.Frame):
         value_range = max_value - min_value
         angle = start_angle + (value - min_value) / value_range * angle_range
         
-        #self.canvas = Canvas(self, width=size_config["canvas_size"], height=size_config["canvas_size"], bg=color_config["background"])
+
         radius = min(self.canvas.winfo_width(), self.canvas.winfo_height()) // 2 - 10
         tick_length = size_config.get("tick_length", 10)
         number_ticks = size_config["number_ticks"]
