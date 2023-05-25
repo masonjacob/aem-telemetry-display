@@ -3,39 +3,42 @@ from math import sin, cos, radians
 
 
 class GaugeWidget(tk.Frame):
-    def __init__(self, parent, data_config, style_config):
+    def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
+        self.data_config = None
+        self.style_config = None
         self.needle_id = None
+        self.value_text_id = None
+        self.canvas = None
+        # Set initial value to 0
+        self.value = 0;
+
+
+    def draw_gauge(self, data_config, style_config):
         self.data_config = data_config
         self.style_config = style_config
-        # Set initial value to the minimum
-        self.value = data_config.get('min_value', 0)
-        self.canvas = tk.Canvas(self, style_config["size"]["canvas-size"], style_config["size"]["canvas-size"], bg=style_config["color_scheme"]["background"])
+        self.canvas = tk.Canvas(self, width=style_config["size"]["canvas_size"], height=style_config["size"]["canvas_size"], bg=style_config["color_scheme"]["background"])
+        self.canvas.pack()  # Pack the canvas to make it visible
+        self.update_idletasks()  # Update the window and its widgets
 
-    def draw_gauge(self):
-        min_value = self.data_config["min_value"]
-        max_value = self.data_config["max_value"]
+        min_value = data_config["min_value"]
+        max_value = data_config["max_value"]
         value = self.value
-        color_config = self.style_config["color_scheme"]
-        start_angle = self.style_config.get(["size"]["start_angle"], -135)
-        end_angle = self.style_config.get(["size"]["end_angle"], 135)
+        size_config = style_config["size"]
+        color_config = style_config["color_scheme"]
+        start_angle = style_config.get("size", {}).get("start_angle", -135)
+        end_angle = style_config.get("size", {}).get("end_angle", 135)
         tick_length = size_config.get("tick_length", 10)
         number_ticks = size_config["number_ticks"]
         number_labels = size_config["number_labels"]
         number_label_offset = size_config.get("number_label_offset", tick_length + 10)
-        needle_length = size_config["needle_length"]
-        value_box_width = size_config["value_box_width"]
-        value_box_height = size_config["value_box_height"]
-
-
+        value_font_size = size_config.get("value_font_size", 16)
         angle_range = end_angle - start_angle
         value_range = max_value - min_value
         angle = start_angle + (value - min_value) / value_range * angle_range
-
         radius = min(self.canvas.winfo_width(), self.canvas.winfo_height()) // 2 - 10
-        
-
+        needle_length = radius - number_label_offset - 10;
         cx = self.canvas.winfo_width() // 2
         cy = self.canvas.winfo_height() // 2
 
@@ -62,55 +65,38 @@ class GaugeWidget(tk.Frame):
             tick_angle = start_angle + (tick_value - min_value) / value_range * angle_range
             tick_x = cx + (radius - number_label_offset) * sin(radians(tick_angle))
             tick_y = cy - (radius - number_label_offset) * cos(radians(tick_angle))
-            self.canvas.create_text(tick_x, tick_y, text=str(int(tick_value)), fill=color_config["number_label"], font=("Arial", 12))
+            self.canvas.create_text(tick_x, tick_y, text=str(int(tick_value)), fill=color_config["number_label"], font=("Arial Black", 12))
 
         # Draw needle
         needle_x = cx + (radius - needle_length) * sin(radians(angle))
         needle_y = cy - (radius - needle_length) * cos(radians(angle))
-        self.canvas.create_line(cx, cy, needle_x, needle_y, fill=color_config["needle"], width=3)
+        self.needle_id = self.canvas.create_line(cx, cy, needle_x, needle_y, fill=color_config["needle"], width=3)
 
         # Draw value box
-        value_box_x = cx - value_box_width // 2
-        value_box_y = cy + radius // 2 - value_box_height // 2
-        self.canvas.create_rectangle(value_box_x, value_box_y, value_box_x + value_box_width,
-                                     value_box_y + value_box_height,
-                                     fill=color_config["value_box"], outline="")
-        self.canvas.create_text(cx, cy + radius // 2, text=str(int(value)), fill=color_config["value"], font=("Arial", 16))
-
-
-    # Calculate the size of the value box based on the font size and character length
+        # Calculate the size of the value box based on the font size and character length
         value_text = str(self.value)
-        font = ('Arial', font_size)
+        font = ('Arial Black', value_font_size)
         text_width = self.canvas.bbox(self.canvas.create_text(0, 0, text=value_text, font=font))[2]
         box_width = text_width + 10  # Add some padding
-
-        # Example code: Draw a rectangle as the value box
-        x1 = 200 - box_width / 2
-        y1 = 200 - font_size / 2
+        # Draw a rectangle as the value box
+        # Calculate coordinates for value box and value text
+        x1 = cx - box_width / 2
+        y1 = cy + radius / 2
         x2 = x1 + box_width
-        y2 = y1 + font_size
-        self.value_label_id = self.canvas.create_rectangle(x1, y1, x2, y2, fill='white', outline='')
-
-        # Example code: Draw the value text inside the box
-        self.canvas.create_text(200, 200, text=value_text, font=font)
-
-    def update_needle(self, value):
-        # Update the needle based on the new value
-        # ...
-
-        # Example code: Rotate the needle based on the value
-        angle = -135 + ((value - self.value) / (max_value - min_value)) * 270
-        self.canvas.itemconfigure(self.needle_id, angle=angle)
-
-    def update_value_label(self, value):
-        # Update the value label with the new value
-        self.canvas.itemconfigure(self.value_label_id, text=str(value))
-        self.value = value
-
-    def set_value(self, value):
-        self.value = value
-
+        y2 = y1 + value_font_size
+        value_x = cx
+        value_y = y1 + value_font_size / 2
+        self.canvas.create_rectangle(x1, y1, x2, y2, fill='white', outline='')
+        # Draw the value text inside the box
+        self.value_text_id = self.canvas.create_text(value_x, value_y, text=value_text, font=font)
 
     def update_gauge(self, value):
-        angle = -135 + ((value - self.value) / (self.max_value - self.min_value)) * 270
+        self.value = value
+        # Update the needle based on the new value
+        angle = -135 + ((value - self.value) / (self.data_config["max_value"] - self.data_config["min_value"])) * 270
         self.canvas.itemconfigure(self.needle_id, angle=angle)
+        # Update the value text with the new value
+        self.canvas.itemconfigure(self.value_label_id, text=str(value))
+    
+    def get_type(self):
+        return self.data_config["name"]

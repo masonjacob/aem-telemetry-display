@@ -124,72 +124,72 @@
     "bar_styles": {
         "default": {
             "size": {
-                "canvas_size": 200,
                 "bar_width": 300,
                 "bar_height": 20
             },
             "color_scheme": {
-              "background": "#222",
+              "background": "#000",
+              "background_bar": "#222",
               "value_bar": "#f00",
               "value_text": "#ddd"
             }
           },
         "Speed": {
             "size": {
-                "canvas_size": 200,
                 "bar_width": 300,
                 "bar_height": 20
             },
             "color_scheme": {
-              "background": "#222",
+              "background": "#000",
+              "background_bar": "#222",
               "value_bar": "#f00",
               "value_text": "#ddd"
             }
         },
         "RPM": {
             "size": {
-                "canvas_size": 200,
                 "bar_width": 300,
                 "bar_height": 20
             },
             "color_scheme": {
-              "background": "#222",
+              "background": "#000",
+              "background_bar": "#222",
               "value_bar": "#f00",
               "value_text": "#ddd"
             }
         },
         "Temperature": {
             "size": {
-                "canvas_size": 200,
                 "bar_width": 300,
                 "bar_height": 20
             },
             "color_scheme": {
-              "background": "#222",
+              "background": "#000",
+              "background_bar": "#222",
               "value_bar": "#f00",
               "value_text": "#ddd"
             }
         },
         "AFR": {
             "size": {
-                "canvas_size": 200,
                 "bar_width": 300,
                 "bar_height": 20
             },
             "color_scheme": {
-              "background": "#222",
+              "background": "#000",
+              "background_bar": "#222",
               "value_bar": "#f00",
               "value_text": "#ddd"
             }
         },
         "Battery Voltage": {
             "size": {
-                "canvas_size": 200,
                 "bar_width": 300,
                 "bar_height": 20
             },
             "color_scheme": {
-              "background": "#222",
+              "background": "#000",
+              "background_bar": "#222",
               "value_bar": "#f00",
               "value_text": "#ddd"
             }
