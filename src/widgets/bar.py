@@ -1,30 +1,31 @@
 import tkinter as tk
+from .widget import Widget
 
-class BarWidget(tk.Frame):
-    def __init__(self, parent):
+class Bar(Widget):
+    def __init__(self, parent, data, style):
         super().__init__(parent)
-        self.parent = parent
-        self.data_config = None
-        self.style_config = None
+        self.data = data
+        self.style = style
         self.bar_id = None
         self.value_text_id = None
-        self.canvas = None
         # Set initial value to 0
         self.value = 0
     
-    def draw_bar(self, data_config, style_config): 
-        self.data_config = data_config
-        self.style_config = style_config
-        self.canvas = tk.Canvas(self, width=style_config["size"]["bar_width"] + 10, height=style_config["size"]["bar_height"] + 10, bg=style_config["color_scheme"]["background"])
-        self.canvas.pack()  # Pack the canvas to make it visible
-        self.update_idletasks()  # Update the window and its widgets
+    def draw(self): 
+        bar_height_ratio = self.style.get("bar_height_ratio", 0.1)
+        self.canvas = tk.Canvas(self, width=self.style["size"]["canvas_width"], height=self.style["size"]["canvas_width"] * bar_height_ratio, bg=self.style["color"]["canvas"])
+        # Add canvas to frame and add frame to parent frame
+        self.canvas.pack(fill=tk.BOTH, expand=True)
+        self.pack()
+        # Make sure canvas size is set before drawing
+        self.update_idletasks()
 
-        min_value = data_config["min_value"]
-        max_value = data_config["max_value"]
+        min_value = self.data["min_value"]
+        max_value = self.data["max_value"]
         value = self.value
-        bar_width = style_config["size"]["bar_width"]
-        bar_height = style_config["size"]["bar_height"]
-        color_config = style_config["color_scheme"]
+        bar_width = self.style["size"]["canvas_width"] - 10
+        bar_height = (self.style["size"]["canvas_width"] * bar_height_ratio)  - 10
+        color_config = self.style["color"]
 
         cx = self.canvas.winfo_width() // 2
         cy = self.canvas.winfo_height() // 2
@@ -46,12 +47,13 @@ class BarWidget(tk.Frame):
         # Overlay numerical value
         self.value_text_id = self.canvas.create_text(cx, cy, text=str(value), fill=color_config.get("value_text", "white"),
                                 font=("Arial Black", 16))
+        
 
-    def update_bar(self, value):
+    def update(self, value):
         self.value = value
-        min_value = self.data_config["min_value"]
-        max_value = self.data_config["max_value"]
-        bar_width = self.styles_config["size"]["bar_width"]
+        min_value = self.data["min_value"]
+        max_value = self.data["max_value"]
+        bar_width = self.style["size"]["canvas_width"] - 10
 
         cx = self.canvas.winfo_width() // 2
 
@@ -66,4 +68,7 @@ class BarWidget(tk.Frame):
         self.canvas.itemconfigure(self.value_text_id, text=str(value))
     
     def get_type(self):
-        return self.data_config["name"]
+        return {
+            'widget_type': "bar",
+            'data_type': self.data["name"]
+        }

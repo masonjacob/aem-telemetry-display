@@ -1,0 +1,34 @@
+{
+  "default": {
+    "size": {
+      "canvas_width": 300
+    },
+    "color": {
+      "canvas": "#222",
+      "gauge_arc": "#555",
+      "ticks": "#999",
+      "number_label": "#ddd",
+      "needle": "#f00",
+      "value": "#f00",
+      "value_box": "#ddd",
+      "value_bar": "#f00",
+      "background_bar": "#222"
+    }
+  },
+  "style_1": {
+    "size": {
+      "canvas_width": 300
+    },
+    "color": {
+      "canvas": "#777",
+      "gauge_arc": "#555",
+      "ticks": "#999",
+      "number_label": "#ddd",
+      "needle": "#f00",
+      "value": "#f00",
+      "value_box": "#ddd",
+      "value_bar": "#f00",
+      "background_bar": "#222"
+    }
+  }
+}

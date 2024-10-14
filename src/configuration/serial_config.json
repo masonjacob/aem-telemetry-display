@@ -1,6 +1,6 @@
 {
-    "port": "COM1",
-    "baudrate": 9600,
+    "port": "COM11",
+    "baud_rate": 9600,
     "parity": "N",
     "timeout": 1,
     "header_byte": "0x55",

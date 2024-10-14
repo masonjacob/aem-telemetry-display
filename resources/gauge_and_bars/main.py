@@ -5,8 +5,8 @@ import random
 import os
 
 # Class imports
-from widgets.gauge_widget import GaugeWidget
-from widgets.bar_widget import BarWidget
+from widgets.gauge import GaugeWidget
+from widgets.bar import BarWidget
 
 
 class Application(Frame):

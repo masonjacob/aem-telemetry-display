@@ -1,0 +1,31 @@
+{
+    "default": {
+        "widgets": [
+            {
+              "widget_type": "gauge",
+              "data": "Speed", 
+              "style": "default"
+            },
+            {
+              "widget_type": "bar",
+              "data": "RPM", 
+              "style": "style_1"
+            }
+        ]
+    },
+    "layout_1": {
+        "widgets": [
+            {
+              "widget_type": "gauge",
+              "data": "RPM", 
+              "style": "default"
+            },
+            {
+              "widget_type": "bar",
+              "data": "Speed", 
+              "style": "style_1"
+            }
+        ]
+    } 
+}
+  
